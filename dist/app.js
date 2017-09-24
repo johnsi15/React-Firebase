@@ -24497,13 +24497,30 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      console.log('Component apunto de renderizar ');
+      var _this2 = this;
+
+      console.log('Component apunto de renderizar.');
+      // Esta config se hace tambien del lado de firebase.
+      var nameRef = _firebase2.default.database().ref().child('object').child('name');
+      // Recibimos una captura de los datos que ay en la database
+      nameRef.on('value', function (snapshot) {
+        _this2.setState({
+          name: snapshot.val()
+        });
+      });
+      // Nota: tener en cuenta las reglas de seguridad -> https://firebase.google.com/docs/database/security/quickstart
     }
+
+    // Mas info -> https://platzi.com/blog/ciclo-de-vida-de-un-componente-de-reactjs/
+
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('El component se renderizo.');
     }
+
+    // Tener en cuenta el estado "state" no se debe modificar nunca en este punto del render.
+
   }, {
     key: 'render',
     value: function render() {
